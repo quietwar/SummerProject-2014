@@ -1,7 +1,8 @@
 __author__ = 'kilimanjaro'
 
 
-from flask import Flask, request, json, Response, jsonify
+from flask import Flask, request, json, render_template
+from data_json import fetch
 
 # adding the static_url_path = ''
 app = Flask(__name__, static_url_path='')
@@ -9,7 +10,6 @@ app = Flask(__name__, static_url_path='')
 
 
 # Define Custom Functions Here
-
 
 # default route to load 'index.html'
 @app.route('/')
@@ -42,7 +42,11 @@ def handle_form_submit():
     return json.dumps(json_return)
 
 
+@app.route('/template_example')
+def template_example():
+    template_data = fetch()
 
+    return render_template('template_example.html', artist=template_data[0]['artistName'], template_data = template_data)
 
 
 

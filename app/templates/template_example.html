@@ -1,0 +1,81 @@
+<html>
+<head>
+    <title>Song Listing for {{artist}}</title>
+
+    <!-- static_url_path has been set, otherwise it would be /static/css/bootstrap.css -->
+    <link rel="stylesheet"  href="/css/bootstrap.css">
+
+</head>
+
+<body>
+    <!-- We are using template to display select data from an api response -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h1 align="center">Jinja Template Example</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h1 align="center">Song Listing for {{artist}}</h1>
+                <br>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                        <th>Artist Name</th>
+                        <th>Track Name</th>
+                        <th>Collection Price</th>
+                        <th>iTunes URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop to Build Table -->
+                        {% for entry in template_data %}
+                            <tr>
+                                <td>{{entry.artistName}}</td>
+                                <td>{{entry.trackCensoredName}}</td>
+                                <td>{{entry.collectionPrice}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+             <div class="col-sm-6">
+                 <h1>Jinja Template Code</h1>
+                <blockquote>
+                <pre>
+                    <code>
+&#123;% for entry in template_data %&#125;
+    &#60;tr&#62;
+        &#60;td&#62;&#123;&#123;entry.artistName&#125;&#125;&#60;/td&#62;
+        &#60;td&#62;&#123;&#123;entry.trackCensoredName&#125;&#125;&#60;/td&#62;
+        &#60;td&#62;&#123;&#123;entry.collectionPrice&#125;&#125;&#60;/td&#62;
+    &#60;/tr&#62;
+&#123;% endfor %&#125;
+                    </code>
+                </pre>
+                </blockquote>
+             </div>
+             <div class="col-sm-6">
+                <h1>Generated HTML Code</h1>
+                <blockquote>
+                <pre>
+                    <code>
+{% for entry in template_data %}
+    &#60;tr&#62;
+        &#60;td&#62;{{entry.artistName}}&#60;/td&#62;
+        &#60;td&#62;{{entry.trackCensoredName}}&#60;/td&#62;
+        &#60;td&#62;{{entry.collectionPrice}}&#60;/td&#62;
+    &#60;/tr&#62;
+{% endfor %}
+                    </code>
+                </pre>
+                </blockquote>
+
+             </div>
+        </div>
+    </div>
+</body>
+</html>
