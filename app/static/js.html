@@ -3,40 +3,69 @@
 
     <title>JavaScript Form Submit Example</title>
     <link rel="stylesheet"  href="/css/bootstrap.css">
-
+    <style>
+        pre {
+            font-size: 10px;
+        }
+    </style>
 </head>
 
     <body>
 
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-sm-4 col-sm-offset-4">
                     <h1>Form - Help</h1>
                     <form id="exampleForm" action="/form_submit" method="POST">
-                        <label for="exampleInputName">Name</label>
-                        <input type="text" class="form-control" name="name" id="exampleInputName" placeholder="Enter Name">
+                        <div id="name-group" class="input-group">
+                            <label for="exampleInputName">Name</label>
+                            <input type="text" class="form-control" name="name" id="exampleInputName" placeholder="Enter Name">
+                        </div>
 
                         <br>
 
-                        <div id="email-group" class="input-group"></div>
+                        <div id="email-group" class="input-group">
                             <label for="exampleInputEmail1">Email address</label>
                             <input type="email" class="form-control"  required name="email_add" id="exampleInputEmail1" placeholder="Enter email" >
-                        <br>
+                        </div>
 
-                        <button type="submit" class="btn btn-large">Submit</button>
+                        <br>
+                        <div id="sumbit-group" class="input-group">
+                            <button type="submit" class="btn btn-large">Submit</button>
                         </div>
 
                     </form>
                     <div id="success-msg"></div>
-
                 </div>
-                <div class="col-md-6">
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
                     <h1>HTML Code</h1>
                     <blockquote>
                         <pre>
-                            <code>
+                            <code class="html">
+&#60;form id="exampleForm" action="/form_submit" method="POST"&#62;
+    &#60;div id="name-group" class="input-group"&#62;&#60;/div&#62;
+        &#60;label for="exampleInputName"&#62;Name&#60;/label&#62;
+        &#60;input type="text" class="form-control" name="name" id="exampleInputName" placeholder="Enter Name"&#62;
+    &#60;/div&#62;
+
+    &#60;br&#62;
+
+    &#60;div id="email-group" class="input-group"&#62;
+        &#60;label for="exampleInputEmail1"&#62;Email address&#60;/label&#62;
+        &#60;input type="email" class="form-control"  required name="email_add" id="exampleInputEmail1" placeholder="Enter email" &#62;
+    &#60;/div&#62;
+
+    &#60;br&#62;
+
+    &#60;div id="submit-group" class="input-group"&#62;
+        &#60;button type="submit" class="btn btn-large"&#62;Submit&#60;/button&#62;
+    &#60;/div&#62;
 
 
+&#60;/form&#62;
+&#60;div id="success-msg"&#62;&#60;/div&#62;
                             </code>
                         </pre>
                     </blockquote>
@@ -44,8 +73,82 @@
             </div>
 
             <div class="row">
-                <div>
+                <div class="col-sm-12">
+                         <h1>JavaScript Code</h1>
+                    <blockquote>
+                        <pre>
+                            <code>
+&#60;script type="text/javascript"&#62;
+$(function() {
+//twitter bootstrap script
+    $('#exampleForm').validate({
 
+        rules: {
+            email_add: {
+                required: true,
+                email: true
+            }
+        },
+        messages: {
+            email_add: "Please enter a valid email address NOW"
+        },
+
+        submitHandler: function(form) {
+
+            // Console Output to see input when submit handler is called
+            console.log($(form).attr('action'));
+            console.log($(form).serialize());
+
+
+            // Check and remove errors if preset
+
+            if ($('#email-group').hasClass('has-error')) {
+                // remove the error class
+                $('#email-group').removeClass('has-error');
+
+            }
+
+            if ($('p').hasClass('alert-danger')) {
+
+                $('#message_error').remove();
+            } else {
+                alert('class not found');
+            }
+
+        $.post( $(form).attr('action'), $(form).serialize() , function(data) {
+            console.log(data);
+            console.log(data.success);
+
+
+            var response = $.parseJSON(data);
+            if (response.success){
+                // alert ('success');
+
+                $(form)[0].reset();
+                $(form).hide();  // Hide the Form
+                $('#success-msg').append('&#60;p class="alert alert-info text-center"&#62;' + response.message + '&#60;/p&#62;');
+            } else {
+                if (response.errors.email) {
+                    // add the error class to show red input
+                    $('#email-group').addClass('has-error');
+
+                    // add the actual error message under our input
+                    $('#email-group').append('&#60;span class="help-block"&#62;&#60;small class="bg-danger"&#62;' + response.errors.email + '&#60;/small&#62;&#60;/span&#62;');
+
+                } else if (response.errors.message) {
+
+                     // script was unable to send email message. let the user know
+                    $('#success-msg').append('&#60;p id="message_error" class="alert alert-danger text-center"&#62;' + response.errors.message + '&#60;/p&#62;');
+                }
+            }
+        });  // Post Function Close
+    }   //Submit Handler Close
+    });  // Validate Function Close
+});// Close function
+&#60;/script&#62;
+                            </code>
+                        </pre>
+                    </blockquote>
                 </div>
             </div>
         </div>
