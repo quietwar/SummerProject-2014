@@ -1,5 +1,5 @@
 <html>
-<head>
+    <head>
     <title>Song Listing for {{artist}}</title>
 
     <!-- static_url_path has been set, otherwise it would be /static/css/bootstrap.css -->
@@ -26,6 +26,7 @@
                         <th>Track Name</th>
                         <th>Collection Price</th>
                         <th>iTunes URL</th>
+                        <th>country</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,6 +36,7 @@
                                 <td>{{entry.artistName}}</td>
                                 <td>{{entry.trackCensoredName}}</td>
                                 <td>{{entry.collectionPrice}}</td>
+                                <td>{{entry.country}}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
